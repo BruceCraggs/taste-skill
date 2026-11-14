@@ -255,6 +255,8 @@ footer{font-size:12.5px;color:var(--muted);border-top:1px solid var(--line);padd
     <li>Works at laptop and tablet widths, by keyboard alone, with AA colour contrast<span>Automated accessibility check</span></li>
     <li>Demonstration data is fictional and labelled as such on screen<span>Review</span></li>
     <li>No control on any screen does nothing<span>Browser test sweep</span></li>
+    <li>No passwords, keys or data files in the repository<span>Automated secret scan on every commit</span></li>
+    <li>Every page and data request refuses a signed-out visitor<span>Automated test of every route</span></li>
   </ul>
 </section>
 
@@ -277,7 +279,19 @@ footer{font-size:12.5px;color:var(--muted);border-top:1px solid var(--line);padd
 </section>
 
 <section id="safeguards">
-  <div class="sec-head"><span class="eyebrow">8 · Data protection and responsible AI</span><h2>Four design rules that keep this defensible</h2></div>
+  <div class="sec-head"><span class="eyebrow">8 · Data protection and responsible AI</span><h2>No data breaches: hold little, expose nothing, prove it</h2>
+  <p class="muted">No system can honestly promise that a breach is impossible. What the design can do is make one very unlikely and make sure there is almost nothing sensitive to lose if it happens. That is the standard this build is held to.</p></div>
+  <div class="panel"><h3>Breach prevention controls</h3><ul>
+    <li><strong>Nothing sensitive to steal.</strong> No pupil names, no safeguarding records, no staff scores. Cohort and group totals only.</li>
+    <li><strong>No real data until approval.</strong> Fictional data only until the data protection officer, IT and headteacher sign off. The import screen stays locked until then.</li>
+    <li><strong>Code and data never mix.</strong> No data files, passwords or keys are ever saved in the code repository. An automated check blocks any attempt.</li>
+    <li><strong>Private by default.</strong> The code moves to a private repository before Sprint 1. The application is never reachable without sign-in and is not placed on the public internet without approval.</li>
+    <li><strong>School sign-in with two-step verification.</strong> Microsoft 365 accounts, so access ends when a staff account is disabled.</li>
+    <li><strong>Encrypted in transit and at rest,</strong> hosted in a UK region, with encrypted backups and a tested restore.</li>
+    <li><strong>Every access is logged.</strong> The audit log records who viewed, changed or exported what, and exports are off by default.</li>
+    <li><strong>AI never sees identifiable data.</strong> Off until Sprint 7; then only minimised, non-identifying text, through one approved provider that does not train on it.</li>
+    <li><strong>A plan if something goes wrong.</strong> Suspected incidents go to the data protection officer immediately, so the school can meet the 72-hour reporting duty to the Information Commissioner where it applies.</li>
+  </ul></div>
   <div class="grid2">
     <div class="panel"><h3>Cohort level first, never pupil names</h3><p>Most gap analysis works on cohort, class and group totals. The database is designed to store those, and pseudonymous pupil codes only if a later decision requires them. Names stay in Insight and the MIS.</p></div>
     <div class="panel"><h3>No safeguarding records, ever</h3><p>Safeguarding concerns stay in the school’s existing recording system and procedures. The application has no field for them and the assistant will not analyse them.</p></div>
@@ -306,7 +320,7 @@ footer{font-size:12.5px;color:var(--muted);border-top:1px solid var(--line);padd
 <section id="decisions">
   <div class="sec-head"><span class="eyebrow">10 · Decisions for you</span><h2>One answer needed now, three conversations to start</h2></div>
   <div class="dec"><span class="n">1</span><h3>Approve the Sprint 1 scope · needed now</h3><p>As set out in sections 6 and 7. On your go-ahead I build it and show it running with fictional data inside this session. Nothing is deployed.</p></div>
-  <div class="dec"><span class="n">2</span><h3>Where the code lives · default chosen</h3><p>This repository holds an unrelated design toolkit. I will build in a self-contained <code>school-intelligence-os</code> folder so it can be lifted into its own private repository later. Tell me if you would prefer a new repository from the start.</p></div>
+  <div class="dec"><span class="n">2</span><h3>Move the code to a private repository · needed before Sprint 1</h3><p>The current repository is public and holds an unrelated design toolkit. Only this plan is in it, with no school or personal information. Please create a new private repository and connect it to this session; I will build there.</p></div>
   <div class="dec"><span class="n">3</span><h3>Hosting and sign-in · ask IT, no rush</h3><p>Three questions for the MAC’s IT lead: can an application be registered for staff Microsoft 365 sign-in; is there an Azure subscription in a UK region it could run in; if not, is a UK-hosted managed PostgreSQL service acceptable? Sprint 1 does not depend on the answers.</p></div>
   <div class="dec"><span class="n">4</span><h3>Data protection and staff records · before Sprints 3 and 4</h3><p>Raise the project with the data protection officer early, and agree with your headteacher how monitoring and coaching records about colleagues will be held and used.</p></div>
 </section>
