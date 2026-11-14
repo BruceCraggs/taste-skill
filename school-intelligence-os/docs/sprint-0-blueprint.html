@@ -1,0 +1,356 @@
+<title>School Intelligence OS Blueprint</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600&display=swap">
+<style>
+/* Layout: one reading column of numbered blueprint sheets; diagrams sit full width inside their own scroll boxes. */
+:root{
+  --bg:#F5F6FA; --surface:#FFFFFF; --ink:#172033; --muted:#566079; --line:#DCE0EA; --line-strong:#AEB6C8;
+  --accent:#2947B8; --accent-soft:#E7ECFB; --ok:#1B7448; --ok-soft:#E2F3EA; --warn:#8F5A08; --warn-soft:#FBF0DA; --crit:#AE2F28; --crit-soft:#FBE6E4;
+  --font-body:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif; --font-head:"Space Grotesk","Inter",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#0F1420; --surface:#171D2C; --ink:#E6E9F2; --muted:#9BA4BA; --line:#2A3247; --line-strong:#4A5573;
+  --accent:#9BB0FF; --accent-soft:#1D294C; --ok:#63C795; --ok-soft:#14301F; --warn:#E5AC58; --warn-soft:#33270F; --crit:#F28B83; --crit-soft:#3A1917; color-scheme:dark } }
+:root[data-theme="dark"]{
+  --bg:#0F1420; --surface:#171D2C; --ink:#E6E9F2; --muted:#9BA4BA; --line:#2A3247; --line-strong:#4A5573;
+  --accent:#9BB0FF; --accent-soft:#1D294C; --ok:#63C795; --ok-soft:#14301F; --warn:#E5AC58; --warn-soft:#33270F; --crit:#F28B83; --crit-soft:#3A1917; color-scheme:dark }
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:15px;line-height:1.55}
+.wrap{max-width:1080px;margin:0 auto;padding-block:36px 72px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:44px}
+h1,h2,h3{font-family:var(--font-head);text-wrap:balance;margin:0;line-height:1.2}
+h1{font-size:clamp(28px,4.4vw,40px);font-weight:600;letter-spacing:-.01em}
+h2{font-size:22px;font-weight:600}
+h3{font-size:15px;font-weight:600}
+p{margin:0;max-width:68ch}
+a{color:var(--accent)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.eyebrow{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.muted{color:var(--muted)}
+.small{font-size:13px}
+header.top{display:flex;flex-direction:column;gap:14px}
+.lede{font-size:17px;max-width:64ch}
+.toc{display:flex;flex-wrap:wrap;gap:8px;font-size:13px}
+.toc a{text-decoration:none;border:1px solid var(--line);background:var(--surface);padding:5px 10px;border-radius:999px;color:var(--ink)}
+.toc a:hover{border-color:var(--accent)}
+section{display:flex;flex-direction:column;gap:16px;min-width:0}
+.sec-head{display:flex;flex-direction:column;gap:6px}
+figure{margin:0;display:flex;flex-direction:column;gap:10px;min-width:0}
+.scroll{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px}
+figcaption{font-size:13px;color:var(--muted);max-width:76ch}
+
+/* diagrams */
+.dg{display:block;width:100%;min-width:760px;height:auto}
+.dg text{font-family:var(--font-body)}
+.dg .bx{fill:var(--surface);stroke:var(--line-strong);stroke-width:1.2}
+.dg .bx-acc{fill:var(--accent-soft);stroke:var(--accent);stroke-width:1.2}
+.dg .bx-later{fill:var(--surface);stroke:var(--muted);stroke-width:1.2;stroke-dasharray:5 4}
+.dg .bx-zone{fill:none;stroke:var(--line-strong);stroke-width:1.2;stroke-dasharray:2 5}
+.dg .ln{stroke:var(--muted);stroke-width:1.3;fill:none}
+.dg .ln-dash{stroke-dasharray:5 4}
+.dg .ln-thin{stroke:var(--line);stroke-width:1}
+.dg .ln-bus{stroke:var(--accent);stroke-width:3;stroke-linecap:round}
+.dg .ah{fill:var(--muted)}
+.dg .t-h{font-size:13px;font-weight:600;fill:var(--ink)}
+.dg .t-big{font-size:16px}
+.dg .t-s{font-size:11px;fill:var(--muted)}
+.dg .t-xs{font-size:10px;fill:var(--muted)}
+.dg .t-tag{font-size:10px;font-weight:600;letter-spacing:.06em;fill:var(--accent)}
+.dg .t-e{font-size:12px;font-weight:600;fill:var(--ink)}
+.dg .t-f{font-size:10px;fill:var(--muted)}
+
+/* generic blocks */
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.panel p,.panel li{font-size:14px}
+ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:5px}
+.pill{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:600;padding:2px 8px;border-radius:999px;white-space:nowrap}
+.pill.ok{background:var(--ok-soft);color:var(--ok)} .pill.warn{background:var(--warn-soft);color:var(--warn)} .pill.crit{background:var(--crit-soft);color:var(--crit)} .pill.acc{background:var(--accent-soft);color:var(--accent)} .pill.plain{background:var(--bg);color:var(--muted);border:1px solid var(--line)}
+
+/* command centre illustration */
+.cc{border:1px solid var(--line-strong);border-radius:12px;background:var(--bg);overflow:hidden;display:grid;grid-template-columns:168px minmax(0,1fr)}
+.cc-rail{background:var(--surface);border-right:1px solid var(--line);padding:14px 10px;display:flex;flex-direction:column;gap:3px;font-size:12.5px}
+.cc-rail b{font-family:var(--font-head);font-size:13px;padding:0 8px 10px}
+.cc-rail span{padding:6px 8px;border-radius:6px;color:var(--muted)}
+.cc-rail span.on{background:var(--accent-soft);color:var(--accent);font-weight:600}
+.cc-main{padding:14px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.cc-bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.cc-search{flex:1 1 180px;border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:7px 10px;font-size:12.5px;color:var(--muted)}
+.cc-btn{font-size:12.5px;font-weight:600;border-radius:8px;padding:7px 11px;background:var(--accent);color:var(--surface);white-space:nowrap}
+.cc-btn.ghost{background:var(--surface);color:var(--ink);border:1px solid var(--line)}
+.cc-row{display:grid;gap:12px;grid-template-columns:minmax(0,1.7fr) minmax(0,1fr)}
+.cc-cols{display:grid;gap:12px;grid-template-columns:repeat(3,minmax(0,1fr))}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:8px;min-width:0;font-size:12.5px}
+.card h4{margin:0;font-family:var(--font-head);font-size:13px;font-weight:600;display:flex;justify-content:space-between;gap:8px;align-items:center}
+.rec{border-top:1px solid var(--line);padding-top:8px;display:flex;flex-direction:column;gap:4px}
+.rec strong{font-weight:600;font-size:13px}
+.why{color:var(--muted)}
+.rec-act{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.chip{font-size:11.5px;border:1px solid var(--line-strong);border-radius:6px;padding:2px 8px}
+.chip.go{border-color:var(--accent);color:var(--accent);font-weight:600}
+.meter{height:8px;border-radius:999px;background:var(--line);overflow:hidden}
+.meter i{display:block;height:100%;background:var(--accent);border-radius:999px}
+.item{display:flex;justify-content:space-between;gap:8px;border-top:1px solid var(--line);padding-top:6px}
+.item span:last-child{color:var(--muted);white-space:nowrap;font-variant-numeric:tabular-nums}
+.pri{display:flex;flex-direction:column;gap:6px}
+.two{display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap}
+@media (max-width:760px){ .cc{grid-template-columns:minmax(0,1fr)} .cc-rail{display:none} .cc-row,.cc-cols{grid-template-columns:minmax(0,1fr)} }
+
+/* cycle + explorer */
+.cycle{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
+.step{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 12px;display:flex;flex-direction:column;gap:3px;font-size:13px}
+.step b{font-family:var(--font-head);font-size:13px;letter-spacing:.04em;color:var(--accent)}
+.mods{display:flex;flex-wrap:wrap;gap:6px}
+.mods button{font:inherit;font-size:13px;border:1px solid var(--line-strong);background:var(--surface);color:var(--ink);padding:6px 11px;border-radius:8px;cursor:pointer}
+.mods button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--surface);font-weight:600}
+.detail{background:var(--accent-soft);border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;font-size:14px}
+table{border-collapse:collapse;width:100%;min-width:720px;font-size:12.5px}
+th,td{padding:6px 8px;text-align:center;border-bottom:1px solid var(--line)}
+th:first-child,td:first-child{text-align:left;white-space:nowrap}
+thead th{font-weight:600;color:var(--muted);font-size:11.5px;vertical-align:bottom}
+td.hl,th.hl{background:var(--accent-soft)}
+.dot{display:inline-block;width:11px;height:11px;border-radius:50%;border:2px solid var(--accent)}
+.dot.c{background:var(--accent)}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12.5px;color:var(--muted);align-items:center}
+
+/* criteria + roadmap + decisions */
+.crit-list{list-style:none;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:8px}
+.crit-list li{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:9px 12px;font-size:13.5px;display:flex;flex-direction:column;gap:2px}
+.crit-list li span{font-size:12px;color:var(--muted)}
+.road{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.sp{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:5px;font-size:13px}
+.sp.now{border-color:var(--accent);background:var(--accent-soft)}
+.sp .gate{font-size:12px;color:var(--warn);font-weight:600}
+.dec{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 14px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+.dec .n{font-family:var(--font-head);font-size:22px;font-weight:600;color:var(--accent);grid-row:span 3;line-height:1}
+.dec p{font-size:14px}
+.src li{font-size:13.5px}
+footer{font-size:12.5px;color:var(--muted);border-top:1px solid var(--line);padding-top:16px}
+</style>
+
+<div class="wrap">
+
+<header class="top">
+  <span class="eyebrow">Sprint 0 · Architecture blueprint · 14 November 2026</span>
+  <h1>School Intelligence OS</h1>
+  <p class="lede">One shared record of priorities, actions, decisions, evidence and reviews sits at the centre. Every module reads and writes to it, so nothing is entered twice and each claim of impact can be traced back to its baseline.</p>
+  <p class="muted">Recommendation: build that shared core and the Leadership Command Centre first, on fictional data, with the assistant working from transparent rules. Add each specialist module as a new set of tables that link into the core. No application code has been written yet; this page is the plan for you to approve.</p>
+  <nav class="toc" aria-label="Sections">
+    <a href="#nav-map">1 Navigation</a><a href="#architecture">2 Architecture</a><a href="#database">3 Database</a><a href="#command-centre">4 Command Centre</a><a href="#connections">5 Module connections</a><a href="#criteria">6 Sprint 1 criteria</a><a href="#first-build">7 First build and roadmap</a><a href="#safeguards">8 Data protection</a><a href="#guidance">9 Current guidance</a><a href="#decisions">10 Decisions for you</a>
+  </nav>
+</header>
+
+<section id="nav-map">
+  <div class="sec-head"><span class="eyebrow">1 · Navigation map</span><h2>Home in the middle, eight modules one click away</h2></div>
+  <figure>
+    <div class="scroll"><svg class="dg" viewBox="0 0 960 432" role="img" aria-label="Navigation map: the Command Centre is home, with eight specialist modules one click away"><defs><marker id="a1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="ah"/></marker></defs><rect x="20" y="24" width="215" height="100" rx="8" class="bx"/><text x="34" y="46" class="t-tag" text-anchor="start">SPRINT 2</text><text x="34" y="68" class="t-h" text-anchor="start">English Centre</text><text x="34" y="90" class="t-s" text-anchor="start">Reading · Writing · Phonics</text><text x="34" y="106" class="t-s" text-anchor="start">Curriculum dependency map</text><line x1="127.5" y1="124" x2="127.5" y2="170" class="ln"/><rect x="255" y="24" width="215" height="100" rx="8" class="bx"/><text x="269" y="46" class="t-tag" text-anchor="start">SPRINT 3</text><text x="269" y="68" class="t-h" text-anchor="start">Assessment &amp; Gaps</text><text x="269" y="90" class="t-s" text-anchor="start">Import wizard · Heatmaps</text><text x="269" y="106" class="t-s" text-anchor="start">Learning Gap Tracker</text><line x1="362.5" y1="124" x2="362.5" y2="170" class="ln"/><rect x="490" y="24" width="215" height="100" rx="8" class="bx"/><text x="504" y="46" class="t-tag" text-anchor="start">SPRINT 4</text><text x="504" y="68" class="t-h" text-anchor="start">T&amp;L Control Room</text><text x="504" y="90" class="t-s" text-anchor="start">Monitoring · Evidence</text><text x="504" y="106" class="t-s" text-anchor="start">Coaching · Follow-up</text><line x1="597.5" y1="124" x2="597.5" y2="170" class="ln"/><rect x="725" y="24" width="215" height="100" rx="8" class="bx"/><text x="739" y="46" class="t-tag" text-anchor="start">SPRINT 6</text><text x="739" y="68" class="t-h" text-anchor="start">Professional Development</text><text x="739" y="90" class="t-s" text-anchor="start">CPD priorities · Activities</text><text x="739" y="106" class="t-s" text-anchor="start">Implementation checks</text><line x1="832.5" y1="124" x2="832.5" y2="170" class="ln"/><rect x="20" y="308" width="215" height="100" rx="8" class="bx"/><text x="34" y="330" class="t-tag" text-anchor="start">SPRINT 5</text><text x="34" y="352" class="t-h" text-anchor="start">Improvement Engine</text><text x="34" y="374" class="t-s" text-anchor="start">Explore · Prepare · Deliver · Sustain</text><text x="34" y="390" class="t-s" text-anchor="start">Board · Timeline · Milestones</text><line x1="127.5" y1="262" x2="127.5" y2="308" class="ln"/><rect x="255" y="308" width="215" height="100" rx="8" class="bx"/><text x="269" y="330" class="t-tag" text-anchor="start">SPRINT 5</text><text x="269" y="352" class="t-h" text-anchor="start">Impact Observatory</text><text x="269" y="374" class="t-s" text-anchor="start">Evidence chain per priority</text><text x="269" y="390" class="t-s" text-anchor="start">Demonstrated · Emerging · Not yet</text><line x1="362.5" y1="262" x2="362.5" y2="308" class="ln"/><rect x="490" y="308" width="215" height="100" rx="8" class="bx"/><text x="504" y="330" class="t-tag" text-anchor="start">SPRINT 6</text><text x="504" y="352" class="t-h" text-anchor="start">Meetings &amp; Actions</text><text x="504" y="374" class="t-s" text-anchor="start">Notes · Decisions</text><text x="504" y="390" class="t-s" text-anchor="start">Suggested actions to approve</text><line x1="597.5" y1="262" x2="597.5" y2="308" class="ln"/><rect x="725" y="308" width="215" height="100" rx="8" class="bx"/><text x="739" y="330" class="t-tag" text-anchor="start">SPRINT 1 BASIC · 7 FULL</text><text x="739" y="352" class="t-h" text-anchor="start">Workload &amp; Attention</text><text x="739" y="374" class="t-s" text-anchor="start">Weekly budget of 2–3 hours</text><text x="739" y="390" class="t-s" text-anchor="start">Delegate · Simplify · Stop</text><line x1="832.5" y1="262" x2="832.5" y2="308" class="ln"/><rect x="20" y="170" width="920" height="92" rx="8" class="bx-acc"/><text x="480" y="193" class="t-tag" text-anchor="middle">SPRINT 1 · HOME</text><text x="480" y="216" class="t-h t-big" text-anchor="middle">Leadership Command Centre</text><text x="480" y="237" class="t-s" text-anchor="middle">Focus today · Actions · Reviews due · Decisions · Evidence · Week ahead · Activity timeline</text><text x="480" y="253" class="t-s" text-anchor="middle">On every screen: Search · Quick add · Notifications</text></svg></div>
+    <figcaption>The Command Centre is the only screen you need to open each week. Modules above it find and explain problems; modules below it act on them, test whether they worked and protect your time. Search, quick add and notifications are available on every screen.</figcaption>
+  </figure>
+  <div class="cycle" aria-label="Weekly user journey">
+    <div class="step"><b>OPEN</b>Command Centre shows what changed since last visit.</div>
+    <div class="step"><b>FOCUS</b>Approve or dismiss two or three recommended actions.</div>
+    <div class="step"><b>DO</b>Jump into the module the action belongs to.</div>
+    <div class="step"><b>RECORD</b>Add evidence or a decision in under a minute.</div>
+    <div class="step"><b>REVIEW</b>Close reviews that fall due; the impact status updates.</div>
+  </div>
+</section>
+
+<section id="architecture">
+  <div class="sec-head"><span class="eyebrow">2 · System architecture</span><h2>One application, separated layers, one database</h2></div>
+  <figure>
+    <div class="scroll"><svg class="dg" viewBox="0 0 960 424" role="img" aria-label="System architecture: browser, one Next.js application with separated layers, a PostgreSQL database, school Microsoft sign-in, validated imports and an optional AI gateway"><defs><marker id="a2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="ah"/></marker></defs><rect x="140" y="96" width="680" height="318" rx="12" class="bx-zone"/><text x="154" y="116" class="t-tag" text-anchor="start">SCHOOL-CONTROLLED HOSTING · UK REGION</text><rect x="380" y="18" width="200" height="52" rx="8" class="bx"/><text x="480" y="40" class="t-h" text-anchor="middle">Your browser</text><text x="480" y="57" class="t-s" text-anchor="middle">laptop or tablet</text><line x1="480" y1="70" x2="480" y2="130" class="ln" marker-end="url(#a2)"/><text x="490" y="90" class="t-s" text-anchor="start">HTTPS · signed-in session</text><rect x="150" y="130" width="660" height="140" rx="8" class="bx"/><text x="166" y="152" class="t-h" text-anchor="start">Next.js application (one codebase, separate layers)</text><rect x="162" y="170" width="98" height="84" rx="6" class="bx-acc"/><text x="211" y="205" class="t-h" text-anchor="middle">Screens</text><text x="211" y="224" class="t-xs" text-anchor="middle">React · Tailwind</text><rect x="270" y="170" width="98" height="84" rx="6" class="bx-acc"/><text x="319" y="205" class="t-h" text-anchor="middle">Rules</text><text x="319" y="224" class="t-xs" text-anchor="middle">actions, reviews</text><rect x="378" y="170" width="98" height="84" rx="6" class="bx-acc"/><text x="427" y="205" class="t-h" text-anchor="middle">Analytics</text><text x="427" y="224" class="t-xs" text-anchor="middle">charts, alerts</text><rect x="486" y="170" width="98" height="84" rx="6" class="bx-acc"/><text x="535" y="205" class="t-h" text-anchor="middle">Permissions</text><text x="535" y="224" class="t-xs" text-anchor="middle">roles, audit</text><rect x="594" y="170" width="98" height="84" rx="6" class="bx-acc"/><text x="643" y="205" class="t-h" text-anchor="middle">Imports</text><text x="643" y="224" class="t-xs" text-anchor="middle">validate first</text><rect x="702" y="170" width="98" height="84" rx="6" class="bx-later"/><text x="751" y="205" class="t-h" text-anchor="middle">AI gateway</text><text x="751" y="224" class="t-xs" text-anchor="middle">off until approved</text><rect x="380" y="330" width="200" height="62" rx="8" class="bx-acc"/><text x="480" y="355" class="t-h" text-anchor="middle">PostgreSQL database</text><text x="480" y="373" class="t-s" text-anchor="middle">one shared store · migrations</text><line x1="480" y1="270" x2="480" y2="330" class="ln" marker-end="url(#a2)"/><rect x="8" y="170" width="118" height="84" rx="8" class="bx"/><text x="67" y="200" class="t-h" text-anchor="middle">Microsoft 365</text><text x="67" y="218" class="t-s" text-anchor="middle">school sign-in</text><text x="67" y="234" class="t-s" text-anchor="middle">(Entra ID)</text><line x1="126" y1="212" x2="150" y2="212" class="ln" marker-end="url(#a2)"/><rect x="834" y="170" width="118" height="84" rx="8" class="bx-later"/><text x="893" y="200" class="t-h" text-anchor="middle">AI provider</text><text x="893" y="218" class="t-s" text-anchor="middle">Sprint 7 only</text><text x="893" y="234" class="t-s" text-anchor="middle">no pupil names</text><line x1="810" y1="212" x2="834" y2="212" class="ln ln-dash" marker-end="url(#a2)"/><text x="470" y="304" class="t-s" text-anchor="end">reads and writes via Rules only</text><rect x="630" y="330" width="170" height="62" rx="8" class="bx"/><text x="715" y="355" class="t-h" text-anchor="middle">Spreadsheet exports</text><text x="715" y="373" class="t-s" text-anchor="middle">Insight · MIS · internal</text><line x1="660" y1="330" x2="660" y2="254" class="ln" marker-end="url(#a2)"/><text x="670" y="296" class="t-s" text-anchor="start">upload → check →</text><text x="670" y="311" class="t-s" text-anchor="start">preview → approve</text><rect x="160" y="330" width="170" height="62" rx="8" class="bx"/><text x="245" y="355" class="t-h" text-anchor="middle">Encrypted backups</text><text x="245" y="373" class="t-s" text-anchor="middle">nightly · restore tested</text><line x1="380" y1="361" x2="330" y2="361" class="ln" marker-end="url(#a2)"/></svg></div>
+    <figcaption>Screens never touch the database directly: every read and write passes through the rules layer, which is where permissions are checked and the audit log is written. The AI gateway is a dashed box because it stays switched off until Sprint 7 and until the school approves a provider.</figcaption>
+  </figure>
+  <div class="grid3">
+    <div class="panel"><h3>What it is built with</h3><p>Next.js, React and TypeScript for the application; Tailwind with shadcn/ui components for a consistent design system; Recharts for charts; React Flow for the curriculum dependency map; Drizzle for typed database access and migrations.</p></div>
+    <div class="panel"><h3>Why these choices</h3><p>They are widely used, well documented and all free to run. A typed database layer means a change to one table is caught by the compiler everywhere it is used, which is what lets later modules be added without rebuilding the foundations.</p></div>
+    <div class="panel"><h3>How it is tested</h3><p>Unit tests on the rules (what counts as overdue, how the assistant ranks work) and browser tests that click through each workflow end to end. A sprint is not reported as working until both pass.</p></div>
+  </div>
+</section>
+
+<section id="database">
+  <div class="sec-head"><span class="eyebrow">3 · Database relationships</span><h2>Four shared records carry everything else</h2></div>
+  <figure>
+    <div class="scroll"><svg class="dg" viewBox="0 0 960 548" role="img" aria-label="Database relationships: priorities link to actions, decisions, evidence and reviews; later module tables attach through record links"><defs><marker id="a3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="ah"/></marker></defs><rect x="15" y="16" width="170" height="78" rx="6" class="bx"/><text x="24" y="33" class="t-e" text-anchor="start">users</text><line x1="15" y1="40" x2="185" y2="40" class="ln-thin"/><text x="24" y="57" class="t-f" text-anchor="start">name · email</text><text x="24" y="72" class="t-f" text-anchor="start">role (permissions)</text><text x="24" y="87" class="t-f" text-anchor="start">is_active</text><rect x="395" y="16" width="170" height="78" rx="6" class="bx"/><text x="404" y="33" class="t-e" text-anchor="start">strategic_priorities</text><line x1="395" y1="40" x2="565" y2="40" class="ln-thin"/><text x="404" y="57" class="t-f" text-anchor="start">title · baseline</text><text x="404" y="72" class="t-f" text-anchor="start">success_measures</text><text x="404" y="87" class="t-f" text-anchor="start">status</text><rect x="775" y="16" width="170" height="78" rx="6" class="bx"/><text x="784" y="33" class="t-e" text-anchor="start">activity_log</text><line x1="775" y1="40" x2="945" y2="40" class="ln-thin"/><text x="784" y="57" class="t-f" text-anchor="start">actor_id · verb</text><text x="784" y="72" class="t-f" text-anchor="start">record type + id</text><text x="784" y="87" class="t-f" text-anchor="start">before / after · at</text><text x="200" y="50" class="t-s" text-anchor="start">owns and creates →</text><text x="765" y="50" class="t-s" text-anchor="end">← every change</text><line x1="480" y1="94" x2="480" y2="116" class="ln"/><line x1="112.5" y1="116" x2="847.5" y2="116" class="ln"/><text x="492" y="110" class="t-s" text-anchor="start">one priority → many records</text><rect x="15" y="140" width="195" height="108" rx="6" class="bx"/><text x="24" y="157" class="t-e" text-anchor="start">actions</text><line x1="15" y1="164" x2="210" y2="164" class="ln-thin"/><text x="24" y="181" class="t-f" text-anchor="start">title · detail</text><text x="24" y="196" class="t-f" text-anchor="start">priority_id → priority</text><text x="24" y="211" class="t-f" text-anchor="start">owner_id → user</text><text x="24" y="226" class="t-f" text-anchor="start">due_on · importance · status</text><text x="24" y="241" class="t-f" text-anchor="start">decision_id · attention_class</text><line x1="112.5" y1="116" x2="112.5" y2="140" class="ln" marker-end="url(#a3)"/><line x1="112.5" y1="248" x2="112.5" y2="282" class="ln"/><rect x="260" y="140" width="195" height="108" rx="6" class="bx"/><text x="269" y="157" class="t-e" text-anchor="start">decisions</text><line x1="260" y1="164" x2="455" y2="164" class="ln-thin"/><text x="269" y="181" class="t-f" text-anchor="start">summary · rationale</text><text x="269" y="196" class="t-f" text-anchor="start">priority_id → priority</text><text x="269" y="211" class="t-f" text-anchor="start">decided_on · decided_by</text><text x="269" y="226" class="t-f" text-anchor="start">meeting_id (later)</text><text x="269" y="241" class="t-f" text-anchor="start">review_id → review</text><line x1="357.5" y1="116" x2="357.5" y2="140" class="ln" marker-end="url(#a3)"/><line x1="357.5" y1="248" x2="357.5" y2="282" class="ln"/><rect x="505" y="140" width="195" height="108" rx="6" class="bx"/><text x="514" y="157" class="t-e" text-anchor="start">evidence</text><line x1="505" y1="164" x2="700" y2="164" class="ln-thin"/><text x="514" y="181" class="t-f" text-anchor="start">summary · kind · source</text><text x="514" y="196" class="t-f" text-anchor="start">priority_id → priority</text><text x="514" y="211" class="t-f" text-anchor="start">gathered_on</text><text x="514" y="226" class="t-f" text-anchor="start">chain_stage (baseline…learning)</text><text x="514" y="241" class="t-f" text-anchor="start">strength: fact / interpretation</text><line x1="602.5" y1="116" x2="602.5" y2="140" class="ln" marker-end="url(#a3)"/><line x1="602.5" y1="248" x2="602.5" y2="282" class="ln"/><rect x="750" y="140" width="195" height="108" rx="6" class="bx"/><text x="759" y="157" class="t-e" text-anchor="start">reviews</text><line x1="750" y1="164" x2="945" y2="164" class="ln-thin"/><text x="759" y="181" class="t-f" text-anchor="start">subject type + id</text><text x="759" y="196" class="t-f" text-anchor="start">due_on · completed_on</text><text x="759" y="211" class="t-f" text-anchor="start">outcome</text><text x="759" y="226" class="t-f" text-anchor="start">impact_status: demonstrated /</text><text x="759" y="241" class="t-f" text-anchor="start">emerging / not yet</text><line x1="847.5" y1="116" x2="847.5" y2="140" class="ln" marker-end="url(#a3)"/><line x1="847.5" y1="248" x2="847.5" y2="282" class="ln"/><line x1="40" y1="282" x2="920" y2="282" class="ln-bus"/><text x="480" y="274" class="t-tag" text-anchor="middle">record_links · any record ↔ any record</text><rect x="15" y="318" width="170" height="78" rx="6" class="bx-later"/><text x="24" y="335" class="t-e" text-anchor="start">assessment_results</text><line x1="15" y1="342" x2="185" y2="342" class="ln-thin"/><text x="24" y="359" class="t-f" text-anchor="start">import_id · cohort_id</text><text x="24" y="374" class="t-f" text-anchor="start">subject · measure · value</text><text x="24" y="389" class="t-f" text-anchor="start">group (aggregate first)</text><line x1="100" y1="282" x2="100" y2="318" class="ln"/><line x1="100" y1="396" x2="100" y2="426" class="ln"/><rect x="205" y="318" width="170" height="78" rx="6" class="bx-later"/><text x="214" y="335" class="t-e" text-anchor="start">learning_gaps</text><line x1="205" y1="342" x2="375" y2="342" class="ln-thin"/><text x="214" y="359" class="t-f" text-anchor="start">skill_id · cohort · group</text><text x="214" y="374" class="t-f" text-anchor="start">baseline → current</text><text x="214" y="389" class="t-f" text-anchor="start">reassess_on · impact</text><line x1="290" y1="282" x2="290" y2="318" class="ln"/><line x1="290" y1="396" x2="290" y2="426" class="ln"/><rect x="395" y="318" width="170" height="78" rx="6" class="bx-later"/><text x="404" y="335" class="t-e" text-anchor="start">monitoring_activities</text><line x1="395" y1="342" x2="565" y2="342" class="ln-thin"/><text x="404" y="359" class="t-f" text-anchor="start">kind · focus · year group</text><text x="404" y="374" class="t-f" text-anchor="start">strengths · developments</text><text x="404" y="389" class="t-f" text-anchor="start">follow_up_on</text><line x1="480" y1="282" x2="480" y2="318" class="ln"/><line x1="480" y1="396" x2="480" y2="426" class="ln"/><rect x="585" y="318" width="170" height="78" rx="6" class="bx-later"/><text x="594" y="335" class="t-e" text-anchor="start">improvement_objectives</text><line x1="585" y1="342" x2="755" y2="342" class="ln-thin"/><text x="594" y="359" class="t-f" text-anchor="start">priority_id · stage (EPDS)</text><text x="594" y="374" class="t-f" text-anchor="start">baseline · success measure</text><text x="594" y="389" class="t-f" text-anchor="start">milestones · owner</text><line x1="670" y1="282" x2="670" y2="318" class="ln"/><line x1="670" y1="396" x2="670" y2="426" class="ln"/><rect x="775" y="318" width="170" height="78" rx="6" class="bx-later"/><text x="784" y="335" class="t-e" text-anchor="start">meetings</text><line x1="775" y1="342" x2="945" y2="342" class="ln-thin"/><text x="784" y="359" class="t-f" text-anchor="start">held_on · attendees</text><text x="784" y="374" class="t-f" text-anchor="start">notes</text><text x="784" y="389" class="t-f" text-anchor="start">→ decisions · actions</text><line x1="860" y1="282" x2="860" y2="318" class="ln"/><rect x="15" y="426" width="170" height="78" rx="6" class="bx-later"/><text x="24" y="443" class="t-e" text-anchor="start">cohorts</text><line x1="15" y1="450" x2="185" y2="450" class="ln-thin"/><text x="24" y="467" class="t-f" text-anchor="start">year group · class</text><text x="24" y="482" class="t-f" text-anchor="start">academic_year</text><text x="24" y="497" class="t-f" text-anchor="start">no pupil names stored</text><rect x="205" y="426" width="170" height="78" rx="6" class="bx-later"/><text x="214" y="443" class="t-e" text-anchor="start">curriculum_skills</text><line x1="205" y1="450" x2="375" y2="450" class="ln-thin"/><text x="214" y="467" class="t-f" text-anchor="start">strand · year · content</text><text x="214" y="482" class="t-f" text-anchor="start">misconceptions · checks</text><text x="214" y="497" class="t-f" text-anchor="start">depends_on (pre → next)</text><rect x="395" y="426" width="170" height="78" rx="6" class="bx-later"/><text x="404" y="443" class="t-e" text-anchor="start">pd_activities</text><line x1="395" y1="450" x2="565" y2="450" class="ln-thin"/><text x="404" y="467" class="t-f" text-anchor="start">need · activity · audience</text><text x="404" y="482" class="t-f" text-anchor="start">implementation_check</text><text x="404" y="497" class="t-f" text-anchor="start">practice_change evidence</text><rect x="585" y="426" width="170" height="78" rx="6" class="bx-later"/><text x="594" y="443" class="t-e" text-anchor="start">impact_evaluations</text><line x1="585" y1="450" x2="755" y2="450" class="ln-thin"/><text x="594" y="467" class="t-f" text-anchor="start">objective_id · chain stage</text><text x="594" y="482" class="t-f" text-anchor="start">improved · not · uncertain</text><text x="594" y="497" class="t-f" text-anchor="start">next_decision_id</text><rect x="775" y="426" width="170" height="78" rx="6" class="bx"/><text x="784" y="443" class="t-e" text-anchor="start">recommendations</text><line x1="775" y1="450" x2="945" y2="450" class="ln-thin"/><text x="784" y="467" class="t-f" text-anchor="start">suggestion · reasons</text><text x="784" y="482" class="t-f" text-anchor="start">source records</text><text x="784" y="497" class="t-f" text-anchor="start">proposed/approved/dismissed</text><line x1="185" y1="357" x2="205" y2="357" class="ln" marker-end="url(#a3)"/><rect x="15" y="524" width="26" height="14" rx="3" class="bx"/><text x="48" y="535" class="t-s" text-anchor="start">built in Sprint 1</text><rect x="170" y="524" width="26" height="14" rx="3" class="bx-later"/><text x="203" y="535" class="t-s" text-anchor="start">added in later sprints by migration, without changing the Sprint 1 tables</text></svg></div>
+    <figcaption>Actions, decisions, evidence and reviews each point to a strategic priority. Later tables (dashed) attach to those four through record links, shown as the blue bar, so a learning gap can raise an action, cite evidence and schedule a reassessment without any change to the Sprint 1 tables. Every change is written to the activity log, which doubles as the audit history and the timeline.</figcaption>
+  </figure>
+  <div class="grid2">
+    <div class="panel"><h3>Completion and impact are stored separately</h3><p>An action has a status (to do, in progress, done). Impact lives on reviews, as demonstrated, emerging or not yet demonstrated, and a review can only be closed with evidence attached. The screens can then never show a finished action as proof that teaching or learning improved.</p></div>
+    <div class="panel"><h3>Fact and interpretation are stored separately</h3><p>Each piece of evidence records what was seen and, in a different field, what it might mean. Evidence is also tagged with its place in the chain (baseline, implementation, change in practice, change in learning), which is what the Impact Observatory reads in Sprint 5.</p></div>
+  </div>
+</section>
+
+<section id="command-centre">
+  <div class="sec-head"><span class="eyebrow">4 · Proposed Leadership Command Centre</span><h2>An operating view of the week</h2>
+  <p class="muted small">Illustration of the proposed layout with fictional demonstration data. Nothing here is real school information, and the controls are drawn, not working. In Sprint 1 every one of them will be.</p></div>
+  <div class="cc" role="img" aria-label="Proposed Command Centre layout: navigation rail, search and quick add, focus recommendations with reasons, weekly capacity, three priorities, and lists of overdue actions, reviews due, the week ahead, decisions, evidence and activity">
+    <div class="cc-rail"><b>School Intelligence OS</b><span class="on">Command Centre</span><span>English Centre</span><span>Assessment &amp; Gaps</span><span>T&amp;L Control Room</span><span>Improvement Engine</span><span>Impact Observatory</span><span>Professional Development</span><span>Meetings &amp; Actions</span><span>Workload &amp; Attention</span></div>
+    <div class="cc-main">
+      <div class="cc-bar"><span class="cc-search">Search actions, decisions, evidence…</span><span class="cc-btn">+ Quick add</span><span class="cc-btn ghost">Notifications · 3</span></div>
+      <div class="cc-row">
+        <div class="card">
+          <h4>What should I focus on today? <span class="pill acc">Suggestions · you decide</span></h4>
+          <div class="rec"><strong>Reassess the Year 4 inference gap</strong><span class="why">Why: reassessment was due 12 Nov. The teaching response has been delivered but there is no reassessment evidence, so impact cannot be judged. About 20 minutes.</span><div class="rec-act"><span class="chip go">Approve</span><span class="chip">Dismiss</span><span class="pill plain">Priority 1</span></div></div>
+          <div class="rec"><strong>Follow-up visit: Year 2 phonics modelling</strong><span class="why">Why: follow-up was scheduled for this week and nothing yet shows whether practice has changed. About 25 minutes.</span><div class="rec-act"><span class="chip go">Approve</span><span class="chip">Dismiss</span><span class="pill plain">Priority 3</span></div></div>
+          <div class="rec"><strong>Give the Y3–Y6 spelling audit an owner</strong><span class="why">Why: no owner for 14 days. This could be delegated to the phase lead. About 5 minutes.</span><div class="rec-act"><span class="chip go">Approve</span><span class="chip">Dismiss</span><span class="pill plain">Priority 1</span></div></div>
+        </div>
+        <div class="card">
+          <h4>Leadership time this week</h4>
+          <div class="two"><span>1 h 40 min committed</span><span class="muted">of 2 h 30 min</span></div>
+          <div class="meter"><i style="width:67%"></i></div>
+          <span class="why">The three suggestions fit in the 50 minutes left. Two lower-value tasks are parked.</span>
+          <h4 style="margin-top:6px">Emerging concerns</h4>
+          <div class="item"><span>Two reviews have slipped twice</span><span class="pill warn">Watch</span></div>
+          <div class="item"><span>One project blocked: awaiting moderation date</span><span class="pill crit">Blocked</span></div>
+        </div>
+      </div>
+      <div class="cc-cols">
+        <div class="card pri"><h4>1 · Identify gaps early</h4><div class="two"><span>Actions done</span><span>7 of 12</span></div><div class="meter"><i style="width:58%"></i></div><div class="two"><span>Evidence of impact</span><span class="pill warn">Emerging</span></div></div>
+        <div class="card pri"><h4>2 · Accelerate progress</h4><div class="two"><span>Actions done</span><span>4 of 9</span></div><div class="meter"><i style="width:44%"></i></div><div class="two"><span>Evidence of impact</span><span class="pill plain">Not yet demonstrated</span></div></div>
+        <div class="card pri"><h4>3 · Consistent teaching</h4><div class="two"><span>Actions done</span><span>5 of 8</span></div><div class="meter"><i style="width:62%"></i></div><div class="two"><span>Evidence of impact</span><span class="pill warn">Emerging</span></div></div>
+      </div>
+      <div class="cc-cols">
+        <div class="card"><h4>Overdue <span class="pill crit">3</span></h4><div class="item"><span>Y4 inference reassessment</span><span>12 Nov</span></div><div class="item"><span>Share Y5 writing moderation notes</span><span>10 Nov</span></div><div class="item"><span>Spelling audit: assign owner</span><span>2 Nov</span></div></div>
+        <div class="card"><h4>Reviews due <span class="pill warn">2</span></h4><div class="item"><span>Y2 phonics modelling follow-up</span><span>18 Nov</span></div><div class="item"><span>Retrieval starters, Y5–Y6</span><span>20 Nov</span></div><h4 style="margin-top:4px">Week ahead</h4><div class="item"><span>SLT meeting</span><span>Tue</span></div><div class="item"><span>Y6 pupil progress meeting</span><span>Thu</span></div></div>
+        <div class="card"><h4>Recent activity</h4><div class="item"><span>Decision: pause new spelling scheme trial</span><span>Fri</span></div><div class="item"><span>Evidence: Y3 book look, sentence work</span><span>Thu</span></div><div class="item"><span>Action completed: fluency baseline Y3</span><span>Wed</span></div><div class="item"><span>Review closed: emerging</span><span>Tue</span></div></div>
+      </div>
+    </div>
+  </div>
+  <p class="small muted">Each priority shows two separate measures. The bar counts completed actions. The label reports what the evidence supports. A priority can be 100% complete and still read “Not yet demonstrated”.</p>
+</section>
+
+<section id="connections">
+  <div class="sec-head"><span class="eyebrow">5 · Connections between modules</span><h2>Every module feeds the same improvement cycle</h2></div>
+  <div class="cycle">
+    <div class="step"><b>IDENTIFY</b>Assessment &amp; Gaps, English Centre, T&amp;L Control Room</div>
+    <div class="step"><b>DIAGNOSE</b>English Centre dependency map, monitoring evidence</div>
+    <div class="step"><b>RESPOND</b>Improvement Engine, Professional Development, Meetings</div>
+    <div class="step"><b>REASSESS</b>Reviews raised by any module, shown on the Command Centre</div>
+    <div class="step"><b>EVALUATE</b>Impact Observatory, then the next decision</div>
+  </div>
+  <p class="small muted">Choose a module to see what it adds to the shared record and what it reuses.</p>
+  <div class="mods" id="mods" role="group" aria-label="Modules"></div>
+  <div class="detail" id="detail" aria-live="polite"></div>
+  <div class="scroll"><table id="matrix" aria-label="Which module creates and which reuses each shared record"></table></div>
+  <div class="legend"><span><span class="dot c"></span> creates or updates</span><span><span class="dot"></span> reads and reuses</span></div>
+</section>
+
+<section id="criteria">
+  <div class="sec-head"><span class="eyebrow">6 · Sprint 1 acceptance criteria</span><h2>Sprint 1 is finished when each of these passes a test</h2></div>
+  <ul class="crit-list">
+    <li>Sign in and sign out; signed-out visitors see nothing<span>Browser test</span></li>
+    <li>Create an action with title, deadline, importance and linked priority<span>Browser test + database check</span></li>
+    <li>Edit an action; the change appears in the activity timeline<span>Browser test</span></li>
+    <li>Complete an action; it leaves the open list and stays searchable<span>Browser test</span></li>
+    <li>Quick add from any screen in three fields or fewer<span>Browser test</span></li>
+    <li>Record a decision with rationale, linked to a priority<span>Browser test</span></li>
+    <li>Record evidence, with fact and interpretation in separate fields<span>Browser test</span></li>
+    <li>Overdue list shows exactly the open actions past their deadline<span>Unit test on the rule</span></li>
+    <li>Reviews due within 14 days are listed; a review cannot close without evidence<span>Unit test + browser test</span></li>
+    <li>Search finds actions, decisions and evidence by any word<span>Browser test</span></li>
+    <li>“Focus today” returns ranked suggestions, each with stated reasons drawn from real records, and Approve and Dismiss both persist<span>Unit test + browser test</span></li>
+    <li>Weekly time budget shows committed against available time<span>Unit test</span></li>
+    <li>Every create, edit and completion writes an audit entry with before and after values<span>Database test</span></li>
+    <li>Works at laptop and tablet widths, by keyboard alone, with AA colour contrast<span>Automated accessibility check</span></li>
+    <li>Demonstration data is fictional and labelled as such on screen<span>Review</span></li>
+    <li>No control on any screen does nothing<span>Browser test sweep</span></li>
+  </ul>
+</section>
+
+<section id="first-build">
+  <div class="sec-head"><span class="eyebrow">7 · Smallest sensible first build and roadmap</span><h2>A small shared core, one screen, no cloud accounts</h2></div>
+  <div class="grid2">
+    <div class="panel"><h3>In Sprint 1</h3><ul><li>Application shell, navigation and design system</li><li>Core tables: users, priorities, actions, decisions, evidence, reviews, record links, recommendations and the activity log</li><li>The Command Centre shown above, fully working</li><li>Rules-based “Focus today”: overdue, review due, blocked, no owner, time available</li><li>Search, timeline, fictional data, automated tests</li></ul></div>
+    <div class="panel"><h3>Deliberately left out of Sprint 1</h3><ul><li>Microsoft 365 sign-in. A local demonstration login is used, behind the same interface the school login will plug into.</li><li>Outlook calendar sync. The week ahead is entered by hand for now.</li><li>Any AI model. The assistant is plain rules you can read.</li><li>Email or Teams notifications. In-app only.</li><li>Any real pupil, staff or school data.</li></ul></div>
+  </div>
+  <div class="road">
+    <div class="sp now"><b>Sprint 1 · Foundation</b>Command Centre on the shared core.</div>
+    <div class="sp"><b>Sprint 2 · English Centre</b>Dependency map, with an editor and import for your own curriculum. Ships empty apart from a clearly labelled sample.</div>
+    <div class="sp"><b>Sprint 3 · Assessment &amp; Gaps</b>Import wizard, heatmaps, gap tracker.<span class="gate">Gate: approval needed before any real data is imported</span></div>
+    <div class="sp"><b>Sprint 4 · T&amp;L Control Room</b>Monitoring, evidence, coaching, follow-up.<span class="gate">Gate: headteacher agreement on how staff records are used</span></div>
+    <div class="sp"><b>Sprint 5 · Improvement &amp; Impact</b>Explore–Prepare–Deliver–Sustain board and the evidence chain.</div>
+    <div class="sp"><b>Sprint 6 · PD &amp; Meetings</b>CPD linked to monitoring; meeting notes to approved actions.</div>
+    <div class="sp"><b>Sprint 7 · AI &amp; automation</b>Model-assisted analysis through the gateway.<span class="gate">Gate: approved provider and data protection sign-off</span></div>
+    <div class="sp"><b>Sprint 8 · Security &amp; deployment</b>Penetration checks, backup restore test, accessibility audit.<span class="gate">Gate: IT and data protection approval before going live</span></div>
+  </div>
+</section>
+
+<section id="safeguards">
+  <div class="sec-head"><span class="eyebrow">8 · Data protection and responsible AI</span><h2>Four design rules that keep this defensible</h2></div>
+  <div class="grid2">
+    <div class="panel"><h3>Cohort level first, never pupil names</h3><p>Most gap analysis works on cohort, class and group totals. The database is designed to store those, and pseudonymous pupil codes only if a later decision requires them. Names stay in Insight and the MIS.</p></div>
+    <div class="panel"><h3>No safeguarding records, ever</h3><p>Safeguarding concerns stay in the school’s existing recording system and procedures. The application has no field for them and the assistant will not analyse them.</p></div>
+    <div class="panel"><h3>Monitoring describes practice, not people</h3><p>Findings are recorded by year group, phase and teaching practice. There are no teacher scores or rankings. Coaching notes about a named colleague are restricted to you and kept apart from appraisal. This needs agreeing with your headteacher before Sprint 4.</p></div>
+    <div class="panel"><h3>The assistant proposes; you decide</h3><p>Every suggestion is stored as proposed until you approve or dismiss it, with its reasons and the records it drew on. Nothing is sent to another person, and no judgement about a pupil or colleague is made, without your action.</p></div>
+  </div>
+</section>
+
+<section id="guidance">
+  <div class="sec-head"><span class="eyebrow">9 · Current guidance that shaped the design</span><h2>What the plan takes from each source</h2>
+  <p class="small muted">Dates and status were confirmed by web search on 14 November 2026. GOV.UK and the EEF site could not be opened directly from this build session, so check exact wording at the links before quoting it.</p></div>
+  <ul class="src">
+    <li><strong>Statutory (UK GDPR) and DfE guidance.</strong> A data protection impact assessment is required where processing is likely to be high risk, and the DfE advises involving the data protection officer from the start of any new tool. This is why real data is gated. <a href="https://www.gov.uk/guidance/data-protection-in-schools">Data protection in schools</a> · <a href="https://www.gov.uk/guidance/data-protection-in-schools/procuring-educational-technology-edtech">Procuring EdTech</a></li>
+    <li><strong>DfE standards (non-statutory).</strong> Generative AI: product safety standards, first published January 2025 and updated 19 January 2026. They are written mainly for pupil-facing products; this tool is staff-only, but their data protection and human oversight expectations are the benchmark used for Sprint 7. <a href="https://www.gov.uk/government/publications/generative-ai-product-safety-standards/generative-ai-product-safety-standards">Product safety standards</a></li>
+    <li><strong>EEF guidance (non-statutory).</strong> A School’s Guide to Implementation was substantially revised in April 2024. Explore, Prepare, Deliver and Sustain remain, but are treated as less linear, with more weight on engaging and uniting staff and reflecting at every phase. The improvement board therefore lets projects move backwards and builds in a reflection point at each stage. <a href="https://educationendowmentfoundation.org.uk/education-evidence/guidance-reports/implementation">EEF implementation guidance</a></li>
+    <li><strong>Ofsted framework.</strong> Report cards and the inspection toolkit have applied since 10 November 2025, with toolkit version 2.0 in use from 7 September 2026. Evaluation areas include inclusion, curriculum and teaching, and achievement, which map closely to your three priorities. Ofsted has said it does not expect written evidence against each toolkit standard, so the application is designed to run improvement work, not to produce inspection paperwork. <a href="https://www.gov.uk/government/publications/education-inspection-framework/education-inspection-framework-for-use-from-november-2025">Education inspection framework</a></li>
+  </ul>
+  <div class="panel"><h3>Where I would challenge the brief</h3><ul>
+    <li>Nine modules against two to three hours a week is the main risk. Each module after the Command Centre should earn its place by saving time in the first fortnight of use; if one does not, stop building it.</li>
+    <li>Insight already analyses attainment. Sprint 3 should import its summaries and add the gap-to-response-to-reassessment loop that Insight lacks, and should not rebuild its reports.</li>
+    <li>The curriculum dependency map is the most valuable feature and the most labour-intensive to populate. Start with one strand in one key stage (for example, sentence construction in Years 3 to 6) and judge its usefulness before entering the rest.</li>
+    <li>A bespoke tool is a hypothesis. Its own impact should be reviewed after a term: time saved, gaps identified earlier, reviews completed on time.</li>
+  </ul></div>
+</section>
+
+<section id="decisions">
+  <div class="sec-head"><span class="eyebrow">10 · Decisions for you</span><h2>One answer needed now, three conversations to start</h2></div>
+  <div class="dec"><span class="n">1</span><h3>Approve the Sprint 1 scope · needed now</h3><p>As set out in sections 6 and 7. On your go-ahead I build it and show it running with fictional data inside this session. Nothing is deployed.</p></div>
+  <div class="dec"><span class="n">2</span><h3>Where the code lives · default chosen</h3><p>This repository holds an unrelated design toolkit. I will build in a self-contained <code>school-intelligence-os</code> folder so it can be lifted into its own private repository later. Tell me if you would prefer a new repository from the start.</p></div>
+  <div class="dec"><span class="n">3</span><h3>Hosting and sign-in · ask IT, no rush</h3><p>Three questions for the MAC’s IT lead: can an application be registered for staff Microsoft 365 sign-in; is there an Azure subscription in a UK region it could run in; if not, is a UK-hosted managed PostgreSQL service acceptable? Sprint 1 does not depend on the answers.</p></div>
+  <div class="dec"><span class="n">4</span><h3>Data protection and staff records · before Sprints 3 and 4</h3><p>Raise the project with the data protection officer early, and agree with your headteacher how monitoring and coaching records about colleagues will be held and used.</p></div>
+</section>
+
+<footer>School Intelligence OS · Sprint 0 blueprint. All example content is fictional demonstration data.</footer>
+</div>
+
+<script>
+(function(){
+  var mods=[
+    {k:"A",n:"Command Centre",s:"Sprint 1",p:"Shows the week: what to focus on, what is overdue, what is due for review and what has changed."},
+    {k:"B",n:"English Centre",s:"Sprint 2",p:"Holds your reading and writing curriculum as a map of skills and their prerequisites, so a gap can be traced back to what was missed."},
+    {k:"C",n:"T&L Control Room",s:"Sprint 4",p:"Records monitoring by focus and practice, and schedules the follow-up that checks whether practice changed."},
+    {k:"D",n:"Assessment & Gaps",s:"Sprint 3",p:"Imports assessment summaries, flags patterns to investigate and tracks each gap through to reassessment."},
+    {k:"E",n:"Improvement Engine",s:"Sprint 5",p:"Runs each objective through Explore, Prepare, Deliver and Sustain with baselines, milestones and owners."},
+    {k:"F",n:"Impact Observatory",s:"Sprint 5",p:"Assembles the evidence chain for each priority and reports what is demonstrated, emerging or not yet shown."},
+    {k:"G",n:"Professional Development",s:"Sprint 6",p:"Turns monitoring findings into development activity and checks for change in classroom practice."},
+    {k:"H",n:"Meetings & Actions",s:"Sprint 6",p:"Captures notes and decisions, and proposes actions for you to approve before anything is saved."},
+    {k:"I",n:"Workload & Attention",s:"Sprint 1 basic, Sprint 7 full",p:"Compares committed work with your weekly time and suggests what to delegate, simplify or stop."}
+  ];
+  var rows=[
+    ["Strategic priorities",{E:"c",A:"u",B:"u",C:"u",D:"u",F:"u",G:"u",H:"u",I:"u"}],
+    ["Actions",{A:"c",B:"c",C:"c",D:"c",E:"c",G:"c",H:"c",F:"u",I:"u"}],
+    ["Decisions",{A:"c",E:"c",F:"c",H:"c",C:"u",D:"u"}],
+    ["Evidence",{A:"c",B:"c",C:"c",D:"c",G:"c",H:"c",E:"u",F:"u"}],
+    ["Reviews",{A:"c",C:"c",D:"c",E:"c",F:"c",G:"c",I:"u"}],
+    ["Learning gaps",{D:"c",B:"c",A:"u",C:"u",E:"u",F:"u",G:"u"}],
+    ["Curriculum skills",{B:"c",C:"u",D:"u",G:"u"}],
+    ["Monitoring findings",{C:"c",A:"u",B:"u",E:"u",F:"u",G:"u"}],
+    ["Assessment results",{D:"c",A:"u",B:"u",E:"u",F:"u"}],
+    ["Development activity",{G:"c",C:"u",E:"u",F:"u"}]
+  ];
+  var sel="A", box=document.getElementById("mods"), det=document.getElementById("detail"), tb=document.getElementById("matrix");
+  function names(k,t){return rows.filter(function(r){return r[1][k]===t}).map(function(r){return r[0].toLowerCase()}).join(", ")||"none"}
+  function draw(){
+    box.innerHTML="";
+    mods.forEach(function(m){var b=document.createElement("button");b.type="button";b.textContent=m.n;b.setAttribute("aria-pressed",m.k===sel);b.onclick=function(){sel=m.k;draw()};box.appendChild(b)});
+    var m=mods.filter(function(x){return x.k===sel})[0];
+    det.innerHTML="";
+    [["h3",m.n+" · "+m.s],["p",m.p],["p","Creates or updates: "+names(sel,"c")+"."],["p","Reuses: "+names(sel,"u")+"."]].forEach(function(e){var el=document.createElement(e[0]);el.textContent=e[1];det.appendChild(el)});
+    var h="<thead><tr><th>Shared record</th>"+mods.map(function(m){return "<th"+(m.k===sel?' class="hl"':"")+">"+m.n.replace("&","&amp;")+"</th>"}).join("")+"</tr></thead><tbody>";
+    rows.forEach(function(r){h+="<tr><td>"+r[0]+"</td>"+mods.map(function(m){var v=r[1][m.k];return "<td"+(m.k===sel?' class="hl"':"")+">"+(v?'<span class="dot'+(v==="c"?" c":"")+'" title="'+(v==="c"?"creates":"reuses")+'"></span>':"")+"</td>"}).join("")+"</tr>"});
+    tb.innerHTML=h+"</tbody>";
+  }
+  draw();
+})();
+</script>
